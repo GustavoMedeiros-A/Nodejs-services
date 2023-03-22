@@ -1,17 +1,17 @@
 
-const calculateSalary = async () => {
+const calculateSalary = (nightWorker, salary, childrenNumber) => {
     let inss = 0.13
     let discountVoucher = 0.06
+    let finalSalary = 0
     if(nightWorker === true) {
-        let finalSalary = salary - (salary * inss) - (salary * discountVoucher) + (salary * 0.05) + calculateNumberChildren
+        return finalSalary = salary - (salary * inss) - (salary * discountVoucher) + (salary * 0.05) + calculateNumberChildren(childrenNumber)
     } else {
-        let finalSalary = salary - (salary * inss) - (salary * discountVoucher) + calculateNumberChildren
+        return finalSalary = salary - (salary * inss) - (salary * discountVoucher) + calculateNumberChildren(childrenNumber)
     }
-    return finalSalary
 }
 
-const calculateNumberChildren = async (person) => {
-    return (person.childrenNumber >= 3) ? 150 : person.childrenNumber  * 50
+const calculateNumberChildren = (childrenNumber) => {
+    return (childrenNumber >= 3) ? 150 : childrenNumber  * 50
 }
 // const Person = require('../model/personModel')
 

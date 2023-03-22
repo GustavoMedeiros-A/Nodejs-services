@@ -9,10 +9,6 @@ const personSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Enter a value"]
     },
-    // discountVoucher: {
-    //     type: Boolean,
-    //     required: [true, "Enter the Voucher"]
-    // },
     nightWorker: {
         type: Boolean,
         required: [true, "Need to type"]

@@ -4,7 +4,7 @@ const router = express.Router();
 
 const Person = require('../model/personModel')
 
-const { calculateSalary, calculateNumberChildren} = require('../service/personService');
+const { calculateSalary } = require('../service/personService');
 
 router.get('/person/getAll', async (req, res) => {
     try {
@@ -14,6 +14,8 @@ router.get('/person/getAll', async (req, res) => {
         console.log(error)
     }
 })
+
+
 
 router.get('/person/:id', async (req, res) => {
     try{
@@ -45,46 +47,32 @@ router.delete('/people/:id', async (req, res) => {
         console.log(error)
     }
 });
-
-// router.get('/salaries/:id', async (req, res) => {
-//     try {
-//         let person = await Person.findById(req.params.id);
-//         let childrenValue = 0
-//         let inss = 0.13
-//         let discountVoucher = 0.06
-//         let finalSalary = 0
-//         if (person.childrenNumber >= 3) {
-//             childrenValue = 150
-//         } else {
-//             childrenValue = person.childrenNumber * 50
-//         }
-//         if(person.nightWorker === true) {
-//             finalSalary = person.payCheck - (person.payCheck * inss) - (person.payCheck * discountVoucher) + (person.payCheck * 0.05) + childrenValue
-//         } else {
-//             finalSalary = person.payCheck - (person.payCheck * inss) - (person.payCheck * discountVoucher) + childrenValue
-//         }
-//         res.status(200).json(finalSalary)
-        
-//     } catch (error) {
-//         console.log(error)
-//     }
-
-// })
+router.get('/salaries/getSalary', async (req, res) => {
+    try {
+        let person =  await Person.find()
+        let allSalaries = 0
+        person.forEach(person => {
+            let salary = calculateSalary(person.nightWorker, person.payCheck, person.childrenNumber)
+            allSalaries = allSalaries + salary
+        })
+        res.status(200).json(allSalaries)
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 router.get('/salaries/:id', async (req, res) => {
     try {
         let person = await Person.findById(req.params.id);
-        // let childrenValue = 0
-        let childrenValue = calculateNumberChildren(person);
-        console.log(childrenValue)
-        res.status(200).json(childrenValue)
-        
+        let salary = calculateSalary(person.nightWorker, person.payCheck, person.childrenNumber)
+        res.status(200).json(salary)
         
     } catch (error) {
         console.log(error)
     }
+});
 
-})
+
 
     //usar o mongoose pra pegar todos os funcionarios
     //fazer um loop por cada funcionario chamando a funcao que calcula seu salario
